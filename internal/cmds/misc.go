@@ -9,6 +9,8 @@ import (
 	"github.com/spf13/cobra"
 
 	linea "github.com/nisarul/Linea-core"
+
+	"github.com/nisarul/Linea-cli/internal/buildinfo"
 )
 
 // newInitCmd creates an empty Linea data directory by opening
@@ -41,7 +43,9 @@ func newVersionCmd() *cobra.Command {
 		Use:   "version",
 		Short: "Print the linea CLI version and the Linea spec version it implements",
 		Run: func(_ *cobra.Command, _ []string) {
-			fmt.Printf("linea cli (linea-core spec %s)\n", linea.SpecVersion)
+			b := buildinfo.Get()
+			fmt.Printf("linea %s (commit %s, built %s) — linea-core spec %s\n",
+				b.Version, b.Commit, b.Date, linea.SpecVersion)
 		},
 	}
 }
