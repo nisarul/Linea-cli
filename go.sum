@@ -26,8 +26,8 @@ github.com/inconshreveable/mousetrap v1.1.0 h1:wN+x4NVGpMsO7ErUn/mUI3vEoE6Jt13X2
 github.com/inconshreveable/mousetrap v1.1.0/go.mod h1:vpF70FUmC8bwa3OWnCshd2FqLfsEA9PFc4w1p2J65bw=
 github.com/klauspost/compress v1.18.0 h1:c/Cqfb0r+Yi+JtIEq73FWXVkRonBlf0CRNYc8Zttxdo=
 github.com/klauspost/compress v1.18.0/go.mod h1:2Pp+KzxcywXVXMr50+X0Q/Lsb43OQHYWRCY2AiWywWQ=
-github.com/nisarul/Linea-core v0.0.0-20260512071023-b3f8ec78ebd8 h1:GbXfmu39AyUqLfinLVfWj9a3C3eMcySezoZYPkBAhgQ=
-github.com/nisarul/Linea-core v0.0.0-20260512071023-b3f8ec78ebd8/go.mod h1:H1Mk8apfXcpL5oIWI8ZozCyi0iZcPYcf/1LTi9olgpg=
+github.com/nisarul/Linea-core v0.1.0 h1:yi0zNnpDiNAPUqvy6uYgNb8DLMdO+PBc6O33RMR8mZ4=
+github.com/nisarul/Linea-core v0.1.0/go.mod h1:H1Mk8apfXcpL5oIWI8ZozCyi0iZcPYcf/1LTi9olgpg=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
 github.com/russross/blackfriday/v2 v2.1.0/go.mod h1:+Rmxgy9KzJVeS9/2gXHxylqXiyQDYRxCVz55jmeOWTM=
