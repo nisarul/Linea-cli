@@ -1,0 +1,26 @@
+# Binaries (built artifacts only — not the cmd/linea/ source folder)
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+bin/
+dist/
+/linea
+/cmd/linea/linea
+
+# Test
+*.test
+*.out
+coverage
+coverage.out
+coverage.html
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
