@@ -78,7 +78,7 @@ func newSourceListCmd() *cobra.Command {
 			}
 			defer rtx.Close()
 			var rows [][]string
-			err = scanSources(rtx, func(src model.Source) bool {
+			err = rtx.IterateSources(func(src model.Source) bool {
 				rows = append(rows, []string{src.ID().String(), string(src.Type()), src.Citation()})
 				return true
 			})
@@ -88,14 +88,4 @@ func newSourceListCmd() *cobra.Command {
 			return current.PrintTable(os.Stdout, []string{"id", "type", "citation"}, rows)
 		},
 	}
-}
-
-// scanSources is not on the Store interface; we approximate it by
-// iterating relationships' sources and proposals' sources is not
-// general enough. The Store iterators expose persons, relationships
-// and proposals — but not sources. We include this helper so a
-// future Store revision adding IterateSources is a one-line swap.
-func scanSources(_ store.ReadTx, _ func(model.Source) bool) error {
-	// TODO: when store.ReadTx exposes IterateSources, replace this body.
-	return fmt.Errorf("source listing not yet supported by the storage adapter")
 }

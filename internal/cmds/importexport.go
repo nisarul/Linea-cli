@@ -53,8 +53,15 @@ func newExportCmd() *cobra.Command {
 			if err != nil {
 				return err
 			}
-			return rtx.IterateRelationships(func(r model.Relationship) bool {
+			err = rtx.IterateRelationships(func(r model.Relationship) bool {
 				_ = emit(out, "relationship", relationshipJSON(r))
+				return true
+			})
+			if err != nil {
+				return err
+			}
+			return rtx.IterateSources(func(s model.Source) bool {
+				_ = emit(out, "source", sourceJSON(s))
 				return true
 			})
 		},
@@ -102,6 +109,14 @@ func newImportCmd() *cobra.Command {
 							return fmt.Errorf("line %d: %w", lineNo, err)
 						}
 						if err := tx.PutRelationship(r); err != nil {
+							return fmt.Errorf("line %d: %w", lineNo, err)
+						}
+					case "source":
+						src, err := decodeSourceJSON(env.Data)
+						if err != nil {
+							return fmt.Errorf("line %d: %w", lineNo, err)
+						}
+						if err := tx.PutSource(src); err != nil {
 							return fmt.Errorf("line %d: %w", lineNo, err)
 						}
 					default:
@@ -168,6 +183,19 @@ func relationshipJSON(r model.Relationship) map[string]any {
 		"to":         r.To().String(),
 		"certainty":  r.Certainty().String(),
 		"continuity": cont,
+	}
+}
+
+func sourceJSON(s model.Source) map[string]any {
+	return map[string]any{
+		"id":       s.ID().String(),
+		"type":     string(s.Type()),
+		"citation": s.Citation(),
+		"author":   s.Author(),
+		"title":    s.Title(),
+		"date":     s.Date(),
+		"locator":  s.Locator(),
+		"notes":    s.Notes(),
 	}
 }
 
@@ -274,4 +302,30 @@ func decodeRelationshipJSON(buf []byte) (model.Relationship, error) {
 		return model.Relationship{}, fmt.Errorf("unknown continuity state %q", ri.Continuity.State)
 	}
 	return model.NewRelationship(id, from, to, rt, c, cont, model.RelationshipOptions{})
+}
+
+type sourceImport struct {
+	ID       string `json:"id"`
+	Type     string `json:"type,omitempty"`
+	Citation string `json:"citation"`
+	Author   string `json:"author,omitempty"`
+	Title    string `json:"title,omitempty"`
+	Date     string `json:"date,omitempty"`
+	Locator  string `json:"locator,omitempty"`
+	Notes    string `json:"notes,omitempty"`
+}
+
+func decodeSourceJSON(buf []byte) (model.Source, error) {
+	var si sourceImport
+	if err := json.Unmarshal(buf, &si); err != nil {
+		return model.Source{}, err
+	}
+	id, err := model.ParseID(si.ID)
+	if err != nil {
+		return model.Source{}, err
+	}
+	return model.NewSource(id, model.SourceType(si.Type), si.Citation, model.SourceOptions{
+		Author: si.Author, Title: si.Title, Date: si.Date,
+		Locator: si.Locator, Notes: si.Notes,
+	})
 }
